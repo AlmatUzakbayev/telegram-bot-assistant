@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from chatgenerator import ask, voice_ask, image_ask
+from bot.chatgenerator import ask, voice_ask, image_ask
 from data import UserInput, UserVoiceInput, UserImageInput
 
 app = FastAPI()
