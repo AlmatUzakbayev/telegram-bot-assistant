@@ -1,11 +1,20 @@
-FROM python:3.11-slim
+# Use the python:3.10-slim-bullseye image as a base image
+FROM python:3.11-slim-bullseye
 
-RUN apt-get update && apt-get install -y ffmpeg && apt-get clean && rm -rf /var/lib/apt/lists/*
-
+# Set the working directory in the container to /app
 WORKDIR /app
 
-COPY . .
+# Copy the entire project into the container at /app
+COPY . /app
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Install any needed packages specified in requirements.txt
+RUN pip install .
 
-CMD ["sh", "-c", "uvicorn app:app --host 0.0.0.0 --port 8000 & python chatbot.py"]
+# Install ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg
+
+# Set the Python PATH to include /app
+ENV PYTHONPATH=/app
+
+# Run the command to start your application
+CMD ["python", "bot/app/run.py"]

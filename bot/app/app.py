@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from bot.chatgenerator import ask, voice_ask, image_ask
-from data import UserInput, UserVoiceInput, UserImageInput
+from bot.app.data import UserInput, UserVoiceInput, UserImageInput
 
 app = FastAPI()
 
@@ -27,3 +27,8 @@ async def voice_endpoint(request: UserVoiceInput):
 async def image_endpoint(request: UserImageInput):
     bot_response = image_ask(request.image_input)
     return {"bot_response": bot_response}
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -9,15 +9,12 @@ import aiohttp
 from pydub import AudioSegment
 import speech_recognition as sr
 
-from config import TELEGRAM_BOT_TOKEN
-
+from bot.config import TELEGRAM_BOT_TOKEN
 from aiogram import Bot, Dispatcher, html, F
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.filters import CommandStart
 from aiogram.types import Message, File
-from pydub.utils import which
-from aiogram.enums.content_type import ContentType
+#from pydub.utils import which
 
 dp = Dispatcher()
 
@@ -33,7 +30,6 @@ def _convert_audio_format(input_path: str, source_audio_format: str) -> str:
     Returns:
         The output path of the converted audio file.
     """
-    AudioSegment.converter = "C:\\ffmpeg\\ffmpeg.exe"
     # AudioSegment.converter = which("ffmpeg")
     try:
         output_path = input_path.replace(f".{source_audio_format}", ".wav")
@@ -50,7 +46,7 @@ async def voice_to_text(voice_file_path: str) -> str:
     try:
         with sr.AudioFile(voice_file_path) as source:
             audio = recognizer.record(source)
-            return recognizer.recognize_google(audio, language="ru-RU")  # Поддержка русского языка
+            return recognizer.recognize_vosk(audio, language="ru-RU")  # Поддержка русского языка
     except Exception as e:
         print(f"Error during voice recognition: {e}")
         return "Ошибка при распознавании аудио"

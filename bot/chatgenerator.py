@@ -3,7 +3,7 @@ import pathlib
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 import google.generativeai as genai
-from config import GOOGLE_API_KEY
+from bot.config import GOOGLE_API_KEY
 
 os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
