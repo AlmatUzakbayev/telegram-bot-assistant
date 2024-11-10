@@ -1,5 +1,6 @@
 import os
 import pathlib
+from bot.constants import TEXT_PROMPT, VOICE_PROMPT, IMAGE_PROMPT
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 import google.generativeai as genai
@@ -15,7 +16,7 @@ def clean_text(text: str) -> str:
 
 def voice_ask(file_name: str) -> str:
     # Create the prompt.
-    prompt = "Give Result."
+    prompt = VOICE_PROMPT
 
     model = genai.GenerativeModel("gemini-1.5-flash")
     # Load the samplesmall.mp3 file into a Python Blob object containing the audio
@@ -44,7 +45,7 @@ def ask(user_text):
     messages = [
         (
             "system",
-            "Give information.",
+            TEXT_PROMPT,
         ),
         ("human", user_text),
     ]
@@ -56,6 +57,6 @@ def image_ask(file_name: str) -> str:
     model = genai.GenerativeModel("gemini-1.5-flash")
     myfile = genai.upload_file(file_name)
     result = model.generate_content(
-        [myfile, "\n\n", "solve the problem in the picture?"]
+        [myfile, "\n\n", IMAGE_PROMPT]
     )
     return clean_text(result.text)
